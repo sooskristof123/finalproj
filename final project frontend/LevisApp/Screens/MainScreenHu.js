@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, ImageBackground } from 'react-native';
 import Footer from '../ScreenComponents/Footer';
+import Header from '../ScreenComponents/Header';
 
 
 const screenHeight = Dimensions.get('window').height;
@@ -8,13 +9,17 @@ const screenWidth = Dimensions.get('window').width;
 
 function MainScreenHu(props) {
     return (
-        <View style = {[styles.mainContainer]}>
-            <Text>picsa</Text>
-            <View style = {[styles.footerContainer]}>
-                <Footer />
+        <ImageBackground source = {require('../img/bg2.jpeg')} imageStyle = {{opacity : 0.6}}>
+            <View style = {[styles.mainContainer]}>
+                <View style = {[styles.headerContainer]}>
+                    <Header />
+                </View>
+                <Text>picsa</Text>
+                <View style = {[styles.footerContainer]}>
+                    <Footer />
+                </View>
             </View>
-        </View>
-        
+        </ImageBackground>
     );
 }
 
@@ -30,6 +35,9 @@ const styles = StyleSheet.create({
     footerContainer : {
         position : 'absolute',
         bottom : 0,
+    },
+    headerContainer : {
+        position : 'absolute',
+        top : 0
     }
-    }
-);
+});
