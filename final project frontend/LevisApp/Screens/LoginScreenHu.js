@@ -1,9 +1,15 @@
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StyleSheet, TextInput, Image, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, TextInput, Image, Text, TouchableOpacity, View, ImageBackground, Dimensions } from 'react-native';
 import {auth} from '../firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
+
+
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
 function LoginScreenHu(props) {
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     //handling login button press
@@ -13,41 +19,50 @@ function LoginScreenHu(props) {
             .then(userCredentials => {
                 const user = userCredentials.user;
                 if (user) {
-                    //navigation.navigate('Main');
+                    navigation.navigate('MainHu');
                 }
             })
         .catch(error => alert(error.message));
     };
     return (
-        <KeyboardAvoidingView style = {[styles.view]}>
-            <Image source = {require('../img/logo.png')} style = {{width: 150, height: 150}} />
-            <Text style = {[styles.headline]}>Lépj be</Text>
-            <View style = {[styles.inputContainer]}>
-                <View style = {{ flex : 1, alignItems : 'center', justifyContent : 'center'}}>
-                    <Icon name = "envelope" />
+        <ImageBackground source = {require('../img/bg3.jpeg')} resizeMode = 'cover' style = {[styles.backgroundImage]} imageStyle = {{opacity : 0.7}}>
+            <Image source =  {require('../img/hu.png')} style = {{width : 30, height : 20, position : 'absolute', top : 20, right : 20, borderRadius : 5}}/>
+            <KeyboardAvoidingView style = {[styles.view]}>
+                <Image source = {require('../img/logo2.png')} style = {{width: 150, height: 150, resizeMode : 'contain'}}/>
+                <Text style = {[styles.headline]}>Lépj be</Text>
+                <View style = {[styles.inputContainer]}>
+                    <View style = {{ flex : 1, alignItems : 'center', justifyContent : 'center'}}>
+                        <Icon name = "envelope" />
+                    </View>
+                    <TextInput style = {{flex : 10}} placeholder='Email' onChangeText={setEmail}></TextInput> 
                 </View>
-                <TextInput style = {{...styles.input, flex : 10}} placeholder='Email' onChangeText={setEmail}></TextInput> 
-            </View>
-            <View style = {[styles.inputContainer]}>
-                <View style = {{ flex : 1, alignItems : 'center', justifyContent : 'center'}}>
-                    <Icon name = "lock"/>
+                <View style = {[styles.inputContainer]}>
+                    <View style = {{ flex : 1, alignItems : 'center', justifyContent : 'center'}}>
+                        <Icon name = "lock"/>
+                    </View>
+                    <TextInput style = {{flex : 10}} placeholder='Jelszó' secureTextEntry onChangeText={setPassword}></TextInput>
                 </View>
-                <TextInput style = {{...styles.input, flex : 10}} placeholder='Jelszó' secureTextEntry onChangeText={setPassword}></TextInput>
-            </View>
-            <TouchableOpacity style = {[styles.button]} onPress = {handlePressLogin}>
-                <Text style = {[styles.buttonText]} >Belépés</Text>
-            </TouchableOpacity>
-            <View style = {[styles.noAccountContainer]}>
-                <Text>Még nincs felhasználód?</Text>
-                <TouchableOpacity style = {{marginLeft : 5}}>
-                    <Text style = {{color : '#8e0000'}}>Regisztrálj</Text>
+                <TouchableOpacity style = {[styles.button]} onPress = {handlePressLogin}>
+                    <Text style = {[styles.buttonText]} >Belépés</Text>
                 </TouchableOpacity>
-            </View>
-        </KeyboardAvoidingView>
+                <View style = {[styles.noAccountContainer]}>
+                    <Text style = {{ color : '#fafafa', fontWeight : 'bold'}}>Még nincs felhasználód?</Text>
+                    <TouchableOpacity style = {{marginLeft : 5}}>
+                        <Text style = {{color : '#8e0000', fontWeight : 'bold'}}>Regisztrálj</Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+        </ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
+    backgroundImage : {
+        height: screenHeight,
+        width: screenWidth,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     inputContainer : {
         flexDirection : 'row',
         alignItems : 'center',
@@ -59,7 +74,6 @@ const styles = StyleSheet.create({
         height : 40
     },
     view : {
-        backgroundColor : '#eceff1',
         flex : 1,
         justifyContent : 'center',
         alignItems : 'center',
@@ -73,16 +87,14 @@ const styles = StyleSheet.create({
     headline : {
         fontSize : 40,
         marginBottom : 15,
-        color : '#000051',
+        color : '#fafafa',
         fontWeight : 'bold'
-    },
-    input : {
     },
     button : {
         marginTop : 20,
         alignItems : 'center',
         borderRadius : 20,
-        borderColor : '#000051',
+        borderColor : '#fafafa',
         borderWidth : 1,
         width : 220,
         paddingTop : 5,
@@ -90,7 +102,7 @@ const styles = StyleSheet.create({
     },
     buttonText : {
         fontSize : 20,
-        color : '#000051',
+        color : '#fafafa',
         fontWeight : 'bold'
     }
 });
