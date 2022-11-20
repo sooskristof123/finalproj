@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet, TextInput, Image, Text, TouchableOpacity, View } from 'react-native';
 import {auth} from '../firebase';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function LoginScreenHu(props) {
     const [email, setEmail] = useState('');
@@ -20,10 +20,20 @@ function LoginScreenHu(props) {
     };
     return (
         <KeyboardAvoidingView style = {[styles.view]}>
-            <Image source = {require('../img/logo.png')} style = {{width: 150, height: 150, marginBottom: 20}} />
+            <Image source = {require('../img/logo.png')} style = {{width: 150, height: 150}} />
             <Text style = {[styles.headline]}>Lépj be</Text>
-            <TextInput style = {[styles.input]} placeholder='Email' onChangeText={setEmail}></TextInput>
-            <TextInput style = {[styles.input]} placeholder='Jelszó' secureTextEntry onChangeText={setPassword}></TextInput>
+            <View style = {[styles.inputContainer]}>
+                <View style = {{ flex : 1, alignItems : 'center', justifyContent : 'center'}}>
+                    <Icon name = "envelope" />
+                </View>
+                <TextInput style = {{...styles.input, flex : 10}} placeholder='Email' onChangeText={setEmail}></TextInput> 
+            </View>
+            <View style = {[styles.inputContainer]}>
+                <View style = {{ flex : 1, alignItems : 'center', justifyContent : 'center'}}>
+                    <Icon name = "lock"/>
+                </View>
+                <TextInput style = {{...styles.input, flex : 10}} placeholder='Jelszó' secureTextEntry onChangeText={setPassword}></TextInput>
+            </View>
             <TouchableOpacity style = {[styles.button]} onPress = {handlePressLogin}>
                 <Text style = {[styles.buttonText]} >Belépés</Text>
             </TouchableOpacity>
@@ -33,17 +43,27 @@ function LoginScreenHu(props) {
                     <Text style = {{color : '#8e0000'}}>Regisztrálj</Text>
                 </TouchableOpacity>
             </View>
-            <Icon name = 'account'/>
         </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
+    inputContainer : {
+        flexDirection : 'row',
+        alignItems : 'center',
+        justifyContent : 'center',
+        backgroundColor : 'rgba(226,226,226, 0.8)',
+        borderRadius : 10,
+        marginBottom : 10,
+        width : 300,
+        height : 40
+    },
     view : {
         backgroundColor : '#eceff1',
         flex : 1,
         justifyContent : 'center',
-        alignItems : 'center'
+        alignItems : 'center',
+        fontFamily : 'arial'
     },
     noAccountContainer : {
         marginTop : 20,
@@ -57,11 +77,6 @@ const styles = StyleSheet.create({
         fontWeight : 'bold'
     },
     input : {
-        width : 300,
-        height : 40,
-        borderRadius : 10,
-        backgroundColor : 'rgba(226,226,226, 0.8)',
-        marginBottom : 10
     },
     button : {
         marginTop : 20,

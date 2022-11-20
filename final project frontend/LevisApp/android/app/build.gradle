@@ -128,6 +128,13 @@ def reactNativeArchitectures() {
     def value = project.getProperties().get("reactNativeArchitectures")
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
+def isNewArchitectureEnabled() {
+    // To opt-in for the New Architecture, you can either:
+    // - Set newArchEnabled to true inside the gradle.properties file
+    // - Invoke gradle with -newArchEnabled=true
+    // - Set an environment variable ORG_GRADLE_PROJECT_newArchEnabled=true
+    return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+}
 
 android {
     ndkVersion rootProject.ext.ndkVersion
@@ -304,6 +311,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 
-
-
-implementation project(':react-native-vector-icons')
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
