@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StyleSheet, TextInput, Image, Text, TouchableOpacity, View, ImageBackground, Dimensions } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, TextInput, Image, Text, TouchableOpacity, View, ImageBackground, Dimensions, ActivityIndicator } from 'react-native';
 import {auth} from '../firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-
+import Lottie from 'lottie-react-native';
 
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
@@ -12,18 +12,31 @@ function LoginScreenHu(props) {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [userLoginLoading, setUserLoginLoading] = useState(false);
     //handling login button press
     const handlePressLogin = () => {
+        setUserLoginLoading(true);
         auth
             .signInWithEmailAndPassword(email, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
                 if (user) {
                     navigation.navigate('MainHu');
+                    setUserLoginLoading(false);
                 }
+                
             })
         .catch(error => alert(error.message));
     };
+
+    if (userLoginLoading) {
+        return (
+            <View style = {{width : screenWidth, height : screenHeight, backgroundColor : '#ececec', justifyContent : 'center', alignItems : 'center', flex : 1}}>
+                <Lottie source={require('../ScreenComponents/loadingAnimation.json')} autoPlay loop style = {{height : 200, width : 80}}/>
+            </View>
+        )
+    }
+
     return (
         <ImageBackground source = {require('../img/bg3.jpeg')} resizeMode = 'cover' style = {[styles.backgroundImage]} imageStyle = {{opacity : 0.7}}>
             <Image source =  {require('../img/hu.png')} style = {{width : 30, height : 20, position : 'absolute', top : 20, right : 20, borderRadius : 5}}/>
