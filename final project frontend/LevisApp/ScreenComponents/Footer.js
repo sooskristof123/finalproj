@@ -12,6 +12,10 @@ function Footer(props) {
         navigation.navigate('MainHu');
     }
 
+    const handleAccountPress = () => {
+        navigation.navigate('AccountHu');
+    }
+
     return (
         <View style = {[styles.footer]}>
             <View style = {[styles.icon]} >
@@ -27,7 +31,7 @@ function Footer(props) {
                 <Icon name = 'heart' size = {30} style = {{flex : 1}}/>
             </View>
             <View style = {[styles.icon]}>
-                <Icon name = 'user' size = {30} style = {{flex : 1}}/>
+                <Icon name = 'user' size = {30} style = {{flex : 1}} onPress = {handleAccountPress}/>
             </View>
         </View>
     );

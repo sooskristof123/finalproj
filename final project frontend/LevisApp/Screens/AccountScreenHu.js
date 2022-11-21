@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions, StyleSheet, ImageBackground } from 'react-native';
-import Card from '../ScreenComponents/Card';
+import {ImageBackground, View, StyleSheet, Dimensions} from 'react-native'
 import Footer from '../ScreenComponents/Footer';
 import Header from '../ScreenComponents/Header';
 
@@ -8,18 +7,15 @@ import Header from '../ScreenComponents/Header';
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
-function MainScreenHu(props) {
+function AccountScreenHu(props) {
     return (
-        <ImageBackground source = {require('../img/bg2.jpeg')} imageStyle = {{opacity : 0.6}}>
+        <ImageBackground source = {require('../img/bg.jpeg')} imageStyle = {{opacity : 0.6}}>
             <View style = {[styles.mainContainer]}>
                 <View style = {[styles.headerContainer]}>
                     <Header />
                 </View>
                 <View style = {[styles.body]}>
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
+                    
                 </View>
                 <View style = {[styles.footerContainer]}>
                     <Footer />
@@ -29,7 +25,7 @@ function MainScreenHu(props) {
     );
 }
 
-export default MainScreenHu;
+export default AccountScreenHu;
 
 const styles = StyleSheet.create({
     mainContainer : {
