@@ -1,44 +1,46 @@
 import React, {useState} from 'react';
 import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  TextInput,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
   ImageBackground,
+  View,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  StyleSheet,
   Dimensions,
-  ActivityIndicator,
+  Image,
 } from 'react-native';
-import {auth} from '../firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {useNavigation} from '@react-navigation/native';
+import {auth} from '../firebase';
 import Lottie from 'lottie-react-native';
 import axios from 'react-native-axios';
+import {useNavigation} from '@react-navigation/native';
 axios.defaults.withCredentials = true;
 
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
-function LoginScreenHu(props) {
+function RegistrationScreenHu(props) {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userLoginLoading, setUserLoginLoading] = useState(false);
-  //handling login button press
-  const handlePressLogin = async () => {
-    setUserLoginLoading(true);
-    const userCredentials = await auth.signInWithEmailAndPassword(
+
+  const handlePressRegistration = async () => {
+    setUserLoginLoading('true');
+    const userCredentials = await auth.createUserWithEmailAndPassword(
       email,
       password,
     );
     const user = userCredentials.user;
     if (user) {
       try {
-        const result = await axios.post('https://5a15-5-204-98-9.eu.ngrok.io/api/usersapi', {
-          uid: user.uid,
-        });
+        const result = await axios.post(
+          'https://5a15-5-204-98-9.eu.ngrok.io/api/usersapi',
+          {
+            uid: user.uid,
+          },
+        );
         if (result.status === 200) {
           setUserLoginLoading(false);
           console.log(user.uid);
@@ -50,10 +52,6 @@ function LoginScreenHu(props) {
         console.log('string', error);
       }
     }
-  };
-
-  const handlePressRegistration = () => {
-    navigation.navigate('RegistrationHu');
   };
 
   if (userLoginLoading) {
@@ -99,7 +97,7 @@ function LoginScreenHu(props) {
           source={require('../img/logo2.png')}
           style={{width: 150, height: 150, resizeMode: 'contain'}}
         />
-        <Text style={[styles.headline]}>Lépj be</Text>
+        <Text style={[styles.headline]}>Regisztrálj</Text>
         <View style={[styles.inputContainer]}>
           <View
             style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -121,23 +119,17 @@ function LoginScreenHu(props) {
             secureTextEntry
             onChangeText={setPassword}></TextInput>
         </View>
-        <TouchableOpacity style={[styles.button]} onPress={handlePressLogin}>
-          <Text style={[styles.buttonText]}>Belépés</Text>
+        <TouchableOpacity
+          style={[styles.button]}
+          onPress={handlePressRegistration}>
+          <Text style={[styles.buttonText]}>Regisztráció</Text>
         </TouchableOpacity>
-        <View style={[styles.noAccountContainer]}>
-          <Text style={{color: '#fafafa', fontWeight: 'bold'}}>
-            Még nincs felhasználód?
-          </Text>
-          <TouchableOpacity style={{marginLeft: 5}} onPress={handlePressRegistration}>
-            <Text style={{color: '#8e0000', fontWeight: 'bold'}}>
-              Regisztrálj
-            </Text>
-          </TouchableOpacity>
-        </View>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
 }
+
+export default RegistrationScreenHu;
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -189,5 +181,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default LoginScreenHu;
